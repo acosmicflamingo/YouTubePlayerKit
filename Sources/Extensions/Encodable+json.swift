@@ -44,8 +44,12 @@ extension Encodable {
     ///   - encoder: The JSONEncoder. Default value `.init()`
     ///   - options: The JSONSerialization WritingOptions. Default value `.init()`
     func jsonString(
-        encoder: JSONEncoder = .init(),
-        options: JSONSerialization.WritingOptions = .init()
+        encoder: JSONEncoder = {
+            let encoder = JSONEncoder()
+            encoder.outputFormatting = [.withoutEscapingSlashes]
+            return encoder
+        }(),
+        options: JSONSerialization.WritingOptions = [.withoutEscapingSlashes]
     ) throws -> String {
         try self
             .json(encoder: encoder)

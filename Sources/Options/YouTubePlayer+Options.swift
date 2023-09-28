@@ -90,7 +90,14 @@ extension YouTubePlayer.Options {
             // Set playlist id
             playerConfigurationJSON[
                 YouTubePlayer.Configuration.CodingKeys.list.rawValue
-            ] = id
+            ] = {
+                switch id {
+                case .playlist(let playlist):
+                    return playlist
+                case .videos(let videos):
+                    return videos
+                }
+            }()
         case .channel(let name, _, _):
             // Set user uploads
             playerConfigurationJSON[

@@ -7,7 +7,7 @@ extension Dictionary {
     /// Make JSON String
     /// - Parameter options: The JSONSerialization WritingOptions. Default value `.init()`
     func jsonData(
-        options: JSONSerialization.WritingOptions = .init()
+        options: JSONSerialization.WritingOptions = [.withoutEscapingSlashes]
     ) throws -> Data {
         try JSONSerialization.data(
             withJSONObject: self,
@@ -24,7 +24,7 @@ extension Dictionary {
     /// Make JSON String
     /// - Parameter options: The JSONSerialization WritingOptions. Default value `.init()`
     func jsonString(
-        options: JSONSerialization.WritingOptions = .init()
+        options: JSONSerialization.WritingOptions = [.withoutEscapingSlashes]
     ) throws -> String {
         .init(
             decoding: try JSONSerialization.data(

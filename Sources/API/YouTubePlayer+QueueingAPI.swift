@@ -76,7 +76,7 @@ private extension YouTubePlayer {
     struct LoadPlaylistParameter: Encodable {
         
         /// The list
-        let list: String
+        let list: Source.PlaylistID
         
         /// The ListType
         let listType: Configuration.ListType
@@ -108,17 +108,17 @@ private extension YouTubePlayer {
                     startSeconds: startSeconds,
                     endSeconds: endSeconds
                 )
-            case .playlist(let id, let index, let startSeconds),
-                 .channel(let id, let index, let startSeconds):
+            case .playlist(let id, let index, let startSeconds):
                 return LoadPlaylistParameter(
                     list: id,
-                    listType: {
-                        if case .playlist = source {
-                            return .playlist
-                        } else {
-                            return .userUploads
-                        }
-                    }(),
+                    listType: .playlist,
+                    index: index,
+                    startSeconds: startSeconds
+                )
+            case .channel(let id, let index, let startSeconds):
+                return LoadPlaylistParameter(
+                    list: .init(id),
+                    listType: .userUploads,
                     index: index,
                     startSeconds: startSeconds
                 )

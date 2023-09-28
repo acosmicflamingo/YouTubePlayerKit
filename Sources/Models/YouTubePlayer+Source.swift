@@ -14,7 +14,7 @@ public extension YouTubePlayer {
         )
         /// Playlist
         case playlist(
-            id: String,
+            id: PlaylistID,
             index: Int? = nil,
             startSeconds: Int? = nil
         )
@@ -36,9 +36,10 @@ extension YouTubePlayer.Source: Identifiable {
     public var id: String {
         switch self {
         case .video(let id, _, _),
-             .playlist(let id, _, _),
              .channel(let id, _, _):
             return id
+        case .playlist(let playlistID, _, _):
+            return playlistID.id
         }
     }
     
@@ -79,7 +80,7 @@ public extension YouTubePlayer.Source {
                 if let playlistId = urlComponents?.queryItems?["list"] {
                     // Return playlist source
                     return .playlist(
-                        id: playlistId
+                        id: .init(playlistId)
                     )
                 }
                 // Check if video id is available
